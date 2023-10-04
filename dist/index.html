@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--style file-->
+    <link rel="stylesheet" href="style.css">
+    <title>Weather App</title>
+</head>
+<body class="">
+    <div class=" h-[100vh] bg-[#848482]">
+        <!--search-part-->
+        <section class="w-full bg-gray-50 bg-opacity-25 h-[60px] ">
+
+            <!--search part-->
+            <div class="md:w-10/12 flex  w-full  items-center px-[30px] justify-between mx-auto ">
+              <div class="flex leading-8 relative">
+                <form id="data-searchFrom">
+                <input type="text" placeholder="search location" class="py-[2px] mt-[10px]  rounded-3xl md:w-[370px] w-[230px] pl-[35px]  placeholder:" id="data-searchinput">
+                <button class="absolute  md:right-[10%] top-[10px] right-[4%]" id="data-searchButton">
+                    <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+                </button>
+            </form>
+              </div>
+              <!--location part-->
+              <button class="text-gray-50 text-[20px] font-semibold " id="locationSearch">Your weather</button>
+            </div>
+        <div>
+
+        </div>
+        </section>
+
+        <!--direct access your locatin -->
+       <section class="w-full hidden" id="grantLocationAccess">
+            <div class="w-11/12  m-auto flex  flex-col text-center items-center   my-[170px]">
+                <img src="/img/location.png" alt="" class="w-[90px] h-[90px] my-10">
+                <h1 class="text-white text-[30px] font-semibold ">Grant Location Access</h1>
+                <p class="text-gray-100 text-[20px] font-semibold">Allow Access to get weather information</p>
+                <button class="px-10 py-[10px] bg-green-500 text-white text-[20px ] font-bold rounded-md mt-[20px] hover:bg-green-600" id="grantAcessbutton">GRANT ACCESS</button>
+            </div>
+        </section>
+
+        <!---loading image-->
+        <div class="w-full hidden" id="loading">
+            <img src="/img/loading.gif" alt="" class="w-[300px] h-[300px] m-auto mt-[100px]">
+        </div>
+        <!--current weather part-->
+
+
+        <section class=" w-full py-[20px] px-[25px] hidden" id="currentWeatherDetail">
+        <div class="w-full md:w-10/12 mx-auto space-y-[20px] ">
+            <!--Location-->
+            <div class="flex justify-between">
+                <h1 class="text-white text-[18px] font-semibold hover:underline" ><span id="cityName"></span>,<span id="regionName"></span>, <span id="countryName"></span></h1>
+                <h1 class="text-white text-[18px] font-semibold hover:underline">Date- <span id="Date"> </span></h1>
+            </div>
+        
+            
+        <!--current weather show-->
+            <div class="py-[30px] px-[15px] space-y-5 flex flex-col   bg-[#5C5858] rounded-md shadow-md shadow-[#5C5858]">
+
+            <div>
+                <h3 class="text-[16px] text-white">Current weather</h3>
+                <!--time show-->
+                <p class="text-[13px] text-gray-300" id="currentTime"></p>
+            </div>
+            <div class="flex space-x-5  items-center ">      
+                         <img  alt="" id="weatherIcon">
+                <h1 class="font-medium text-[48px] text-white" id ="tempdegree"><sup class="text-[25px]">°C</sup></h1>
+                <div>
+                    <h3 class="font-semibold text-[19px] text-white " id="weatherText"></h3>
+                    <p class="text-gray-300 text-[16px]">Feels like  <span id="feelslike"><sup>°</sup></span></p>
+                </div>
+            </div>
+             <div class="flex text-white space-x-10">
+               <h1>SunRise: <span class="text-[20px] text-gray-400 font-semibold" id="SunRiseTime"></span></h1>
+               <h2>SunSet: <span class="text-[20px] text-gray-400 font-semibold" id="sunSettime"></span></h2>
+             </div>
+            <!--detail about weather-->
+            <div class="flex space-x-3   justify-between">
+                <div>
+                    <h4 class="text-[14px] text-gray-300 hover:underline">Air quality</h4>
+                    <p class="text-[18px] text-white " id="airquality"></p>
+                </div>
+
+                <div>
+                    <h4 class="text-[14px] text-gray-300 hover:underline">Wind</h4>
+                    <p class="text-[18px] text-white " id="wind"></p>
+                </div>
+
+                <div>
+                    <h4 class="text-[14px] text-gray-300 hover:underline">Humidity</h4>
+                    <p class="text-[18px] text-white " id="Humidity"> </p>
+                </div>
+
+                <div>
+                    <h4 class="text-[14px] text-gray-300 hover:underline">Visibility</h4>
+                    <p class="text-[18px] text-white " id="visibility"> </p>
+                </div>
+
+                <div>
+                    <h4 class="text-[14px] text-gray-300 hover:underline">Pressure</h4>
+                    <p class="text-[18px] text-white " id="pressure"></p>
+                </div>
+
+                <div>
+                    <h4 class="text-[14px] text-gray-300 hover:underline">Dew point</h4>
+                    <p class="text-[18px] text-white " id="dewPoint"></p>
+                </div>
+                </div>
+            </div>
+        </div>
+        </section>
+
+        <!--10 day forcast-->
+        <section class="w-full py-[20px] px-[15px] hidden relative " id="tenDayWeather">
+
+            <div class="w-full md:w-10/12 mx-auto space-y-[20px] ">
+                <button class="py-[3px] px-[10px] text-center rounded-full hover:bg-gray-200 bg-opacity-20 absolute top-[57%] -left-0 md:left-[8%] duration-200 transition-all "><i class="fa-solid fa-greater-than rotate-180 text-white text-[15px] font-semibold" id="leftButton"></i></button>
+                <button class="py-[3px] px-[10px] text-center rounded-full hover:bg-gray-200 bg-opacity-20 absolute top-[50%] -right-0  md:right-[8%] duration-200 transition-all "><i class="fa-solid fa-greater-than text-white text-[15px] font-semibold " id="rightButton"></i></button>
+            <div class="flex justify-between">
+                <h1 class="text-[15px] font-semibold text-white ">10 DAY FORECAST</h1>
+                <h1 class="text-[15px] font-semibold text-white ">SEE MORE FORECAST <span><i class="fa-solid fa-greater-than"></i></span></h1>
+            </div>
+      
+            <div class="flex space-x-4 overflow-hidden relative" id="tendayCardsilde">
+             
+                <!--weather card -1-->
+                <!--div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25 transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center" id="singleCard">
+                <p id="dayChange" class="text-white text-[15px] font-semibold">Today</p>
+                <div class="flex    px">
+                    <img  alt="" id="tenweatherIcon" width="40px">
+                    <p id="degree" class="text-white font-semibold text-[18px] mx-[10px] inline-block">
+                        94 
+                    </p>
+                    <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                </div>
+                </div-->
+
+               <!--weather card -1-->
+               <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+                <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+                <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+                    <img  alt="" id="tenweatherIcon" width="70px">
+                
+                    <p id="degree" class="text-white font-semibold text-[18px] ">
+                        94  </p>
+                        
+
+                    <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                </div>
+                </div>
+              <!--Weather card --2-->
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+                    <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                    
+                        <p id="degree" class="text-white font-semibold text-[18px] ">
+                            94  </p>
+                            
+    
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                    </div>
+
+                       <!--weather card -1-->
+               <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+                <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+                <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+                    <img  alt="" id="tenweatherIcon" width="70px">
+                
+                    <p id="degree" class="text-white font-semibold text-[18px] ">
+                        94  </p>
+                        
+
+                    <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                </div>
+                </div>
+  <!--weather card -3-->
+                    <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+                        <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+                        <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+                            <img  alt="" id="tenweatherIcon" width="70px">
+                        
+                            <p id="degree" class="text-white font-semibold text-[18px] ">
+                                94  </p>
+                                
+        
+                            <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                        </div>
+                        </div>
+   <!--weather card -1-->
+   <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+    <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+    <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+        <img  alt="" id="tenweatherIcon" width="70px">
+    
+        <p id="degree" class="text-white font-semibold text-[18px] ">
+            94  </p>
+            
+
+        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+    </div>
+    </div>
+                        <!--Weather card --2-->
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+                    <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                    
+                        <p id="degree" class="text-white font-semibold text-[18px] ">
+                            94  </p>
+                            
+    
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                    </div>
+
+                     <!--Weather card --2-->
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+                    <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                    
+                        <p id="degree" class="text-white font-semibold text-[18px] ">
+                            94  </p>
+                            
+    
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                    </div>
+
+                     <!--Weather card --2-->
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+                    <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                    
+                        <p id="degree" class="text-white font-semibold text-[18px] ">
+                            94  </p>
+                            
+    
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                    </div>
+
+                     <!--Weather card --2-->
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold"></p>
+                    <div class="flex space-y-1  items-center px-[30px]  flex-col text-center justify-center   ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                    
+                        <p id="degree" class="text-white font-semibold text-[18px] ">
+                            94  </p>
+                            
+    
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                    </div>
+
+                    
+
+
+                                
+              
+              
+
+                    <!--weather card -5-->
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25 transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center" id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold">Today</p>
+                    <div class="flex space-x-1  items-center px-[30px]  flex-col text-center justify-center  ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                        <p id="degree" class="text-white font-semibold text-[18px]">
+                            94 <sup class="">°</sup>   
+                        </p>
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                    </div>
+
+                    <!--weather card-6-->
+                    
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center" id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold">Today</p>
+                    <div class="flex space-x-1  items-center px-[30px]  flex-col text-center justify-center  ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                        <p id="degree" class="text-white font-semibold text-[18px]">
+                            94 <sup class="">°</sup>   
+                        </p>
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                    </div>
+
+                    <!--weather card-7-->
+               
+
+                    <!--weather card 8-->
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center" id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold">Today</p>
+                    <div class="flex space-x-1  items-center px-[30px]  flex-col text-center justify-center  ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                        <p id="degree" class="text-white font-semibold text-[18px]">
+                            94 <sup class="">°</sup>   
+                        </p>
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                </div>
+
+                    <!--weather card 9-->
+                <div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25  transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center" id="singleCard">
+                    <p id="dayChange" class="text-white text-[15px] font-semibold">Today</p>
+                    <div class="flex space-x-1  items-center px-[30px]  flex-col text-center justify-center  ">
+                        <img  alt="" id="tenweatherIcon" width="70px">
+                        <p id="degree" class="text-white font-semibold text-[18px]">
+                            94 <sup class="">°</sup>   
+                        </p>
+                        <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+                    </div>
+                    </div>
+
+      <!--weather card  10-->
+      <!--div class="bg-gray-50 bg-opacity-10 px-[10px]  py-[15px] cursor-pointer hover:bg-opacity-25 transition-all duration-200 rounded-md shadow-sm w-[150px] relative flex  flex-col text-center " id="singleCard">
+        <p id="dayChange" class="text-white text-[15px] font-semibold">Today</p>
+        <div class="flex space-x-1  items-center px-[30px]  flex-col text-center justify-center  ">
+            <img  alt="" id="tenweatherIcon" width="70px">
+            <p id="degree" class="text-white font-semibold text-[18px]">
+                94 <sup class="">°</sup>   
+            </p>
+            <p id="weatherfeel" class="text-gray-100 text-[16px] font-semibold">Haze</p>
+        </div>
+        </div-->
+
+            
+            </div>
+
+           </div>
+        </section>
+    </div>
+   <script src="index.js"></script>
+    <script src="https://kit.fontawesome.com/a13ee94394.js" crossorigin="anonymous"></script>
+    
+</body>
+</html>
